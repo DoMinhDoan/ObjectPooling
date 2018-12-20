@@ -110,7 +110,20 @@ public class ShipController : MonoBehaviour
     {
         foreach (GameObject turret in activePlayerTurrets)
         {
-            Instantiate(playerBullet, turret.transform.position, turret.transform.rotation);
+            // Get object from pooled object. If it's null, then Instantiate
+            GameObject bulletObject = ObjectPooler.sharedInstance.GetPooledObject();
+            if(bulletObject)
+            {
+                bulletObject.transform.position = turret.transform.position;
+                bulletObject.transform.rotation = turret.transform.rotation;
+
+                bulletObject.SetActive(true);
+            }
+            else
+            {
+                Instantiate(playerBullet, turret.transform.position, turret.transform.rotation);
+            }
+
         }
         shootSoundFX.Play();
     }
@@ -155,7 +168,19 @@ public class ShipController : MonoBehaviour
         {
             foreach (GameObject turret in scatterShotTurrets)
             {
-                Instantiate(playerBullet, turret.transform.position, turret.transform.rotation);
+                // Get object from pooled object. If it's null, then Instantiate
+                GameObject bulletObject = ObjectPooler.sharedInstance.GetPooledObject();
+                if (bulletObject)
+                {
+                    bulletObject.transform.position = turret.transform.position;
+                    bulletObject.transform.rotation = turret.transform.rotation;
+
+                    bulletObject.SetActive(true);
+                }
+                else
+                {
+                    Instantiate(playerBullet, turret.transform.position, turret.transform.rotation);
+                }
             }
             shootSoundFX.Play();
             yield return new WaitForSeconds(scatterShotTurretReloadTime);

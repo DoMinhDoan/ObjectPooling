@@ -30,7 +30,7 @@ public class BasicMovement : MonoBehaviour
     public float speed;
 
     // Use this for initialization
-    void Start()
+    void OnEnable()
     {
         objectRigidbody = transform.GetComponent<Rigidbody2D>();
         objectRigidbody.velocity = transform.up * speed;
