@@ -31,7 +31,7 @@ public class DestroyByBoundary : MonoBehaviour
     {
         if (other.gameObject.tag == "Boundary")
         {
-            if (gameObject.CompareTag("Player Bullet"))
+            if (ObjectPooler.sharedInstance.ReturnToPool(gameObject))
             {
                 gameObject.SetActive(false);
             }

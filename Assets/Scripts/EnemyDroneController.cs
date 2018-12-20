@@ -52,7 +52,14 @@ public class EnemyDroneController : MonoBehaviour
     {
         if (other.gameObject.tag == "Boundary" && other.gameObject.name != "Top Boundary")
         {
-            Destroy(gameObject);
+            if(ObjectPooler.sharedInstance.ReturnToPool(gameObject))
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 
@@ -67,10 +74,17 @@ public class EnemyDroneController : MonoBehaviour
                 Instantiate(powerUp, gameObject.transform.position, gameObject.transform.rotation);
             }
             Instantiate(explosion, gameObject.transform.position, gameObject.transform.rotation);
-            //Destroy(other.gameObject);
+            
             other.gameObject.SetActive(false);
 
-            Destroy(gameObject);
+            if (ObjectPooler.sharedInstance.ReturnToPool(gameObject))
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

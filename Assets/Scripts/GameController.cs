@@ -74,11 +74,31 @@ public class GameController : MonoBehaviour
                 Quaternion spawnRotation = Quaternion.Euler(0, 0, 180);
                 if (waveType >= 5.0f)
                 {
-                    Instantiate(enemyType1, spawnPosition, spawnRotation);
+                    GameObject enemy = ObjectPooler.sharedInstance.GetPooledObject(enemyType1.tag);
+                    if (enemy)
+                    {
+                        enemy.transform.position = spawnPosition;
+                        enemy.transform.rotation = spawnRotation;
+                        enemy.SetActive(true);
+                    }
+                    else
+                    {
+                        Instantiate(enemyType1, spawnPosition, spawnRotation);
+                    }
                 }
                 else
                 {
-                    Instantiate(enemyType2, spawnPosition, spawnRotation);
+                    GameObject enemy = ObjectPooler.sharedInstance.GetPooledObject(enemyType2.tag);
+                    if (enemy)
+                    {
+                        enemy.transform.position = spawnPosition;
+                        enemy.transform.rotation = spawnRotation;
+                        enemy.SetActive(true);
+                    }
+                    else
+                    {
+                        Instantiate(enemyType2, spawnPosition, spawnRotation);
+                    }
                 }
                 yield return new WaitForSeconds(spawnInterval);
             }

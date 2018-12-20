@@ -111,7 +111,7 @@ public class ShipController : MonoBehaviour
         foreach (GameObject turret in activePlayerTurrets)
         {
             // Get object from pooled object. If it's null, then Instantiate
-            GameObject bulletObject = ObjectPooler.sharedInstance.GetPooledObject();
+            GameObject bulletObject = ObjectPooler.sharedInstance.GetPooledObject("Player Bullet");
             if(bulletObject)
             {
                 bulletObject.transform.position = turret.transform.position;
@@ -169,7 +169,7 @@ public class ShipController : MonoBehaviour
             foreach (GameObject turret in scatterShotTurrets)
             {
                 // Get object from pooled object. If it's null, then Instantiate
-                GameObject bulletObject = ObjectPooler.sharedInstance.GetPooledObject();
+                GameObject bulletObject = ObjectPooler.sharedInstance.GetPooledObject("Player Bullet");
                 if (bulletObject)
                 {
                     bulletObject.transform.position = turret.transform.position;

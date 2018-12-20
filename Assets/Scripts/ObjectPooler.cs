@@ -2,13 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class ObjectPoolItem
+{
+    public GameObject objectToPool;
+    public int amountToPool;
+    public bool shouldExpand = true;
+}
+
 public class ObjectPooler : MonoBehaviour
 {
     public static ObjectPooler sharedInstance;
 
+    public List<ObjectPoolItem> itemsToPool;
     public List<GameObject> pooledObjects;
-    public GameObject objectToPool;
-    public int amountToPool;
+   
 
     private void Awake()
     {
@@ -20,25 +28,56 @@ public class ObjectPooler : MonoBehaviour
     {
         pooledObjects = new List<GameObject>();
 
-        for (int i = 0; i < amountToPool; i++)
+        foreach(var item in itemsToPool)
         {
-            GameObject obj = Instantiate(objectToPool);
-            obj.SetActive(false);
+            for (int i = 0; i < item.amountToPool; i++)
+            {
+                GameObject obj = Instantiate(item.objectToPool);
+                obj.SetActive(false);
 
-            pooledObjects.Add(obj);
-        }
+                pooledObjects.Add(obj);
+            }
+        }        
     }
 
-    public GameObject GetPooledObject()
+    public GameObject GetPooledObject(string tag)
     {
         foreach (GameObject obj in pooledObjects)
         {
-            if (!obj.activeInHierarchy)
+            if (!obj.activeInHierarchy && obj.CompareTag(tag))
             {
                 return obj;
             }
         }
+
+        foreach(var item in itemsToPool)
+        {
+            if (item.objectToPool.CompareTag(tag))
+            {
+                if(item.shouldExpand)
+                {
+                    GameObject obj = Instantiate(item.objectToPool);
+                    obj.SetActive(false);
+                    pooledObjects.Add(obj);
+
+                    return obj;
+                }
+            }
+        }
+
         return null;
+    }
+
+    public bool ReturnToPool(GameObject obj)
+    {
+        foreach (var item in itemsToPool)
+        {
+            if (item.objectToPool.CompareTag(obj.tag))
+            {                
+                return true;
+            }
+        }
+        return false;
     }
 
 }
