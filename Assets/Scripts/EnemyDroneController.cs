@@ -33,7 +33,7 @@ public class EnemyDroneController : MonoBehaviour
     public float maxReloadTime = 2.0f;
 
     // Use this for initialization
-    void Start()
+    void OnEnable()
     {
         StartCoroutine("Shoot");
     }
