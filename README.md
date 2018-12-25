@@ -3,6 +3,7 @@
 ## Overview
 
 A place to demo object pooling pattern to know how it's helpful for performance.
+
 Unity uses Garbage Collection to deallocate memory that’s no longer in use. Repeated calls to Destroy() frequently trigger this task, and it has a knack for slowing down CPUs and introducing pauses to gameplay.
 
 ## Features:
